@@ -16,6 +16,13 @@ public class ProtestoServerImpl implements ProtestoServer {
 
     ProtestoDAO p = new ProtestoDAO();
 
+    /*
+    <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+        <Body>
+            <consultarTodos xmlns="http://web.protesto/"/>
+        </Body>
+    </Envelope>
+    */
     @Override
     public Protesto[] consultarTodos() {
         ArrayList<Protesto> a = p.consultarTodos();
