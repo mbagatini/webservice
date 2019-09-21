@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package protesto.web;
+package ws.soap;
 
 import entidade.Protesto;
 import java.util.Date;

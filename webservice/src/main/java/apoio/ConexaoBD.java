@@ -19,13 +19,10 @@ public class ConexaoBD {
 
     public ConexaoBD() {
         try {
-            // Carrega informações do arquivo de propriedades
-            Properties prop = new Properties();
-            prop.load(new FileInputStream("db.properties"));
-            String dbdriver = prop.getProperty("db.driver");
-            String dburl = prop.getProperty("db.url");
-            String dbuser = prop.getProperty("db.user");
-            String dbsenha = prop.getProperty("db.senha");
+            String dbdriver = "com.mysql.cj.jdbc.Driver";
+            String dburl = "jdbc:mysql://localhost:3306/webservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            String dbuser = "root";
+            String dbsenha = "";
 
             // Carrega Driver do Banco de Dados
             Class.forName(dbdriver);

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package protesto.web;
+package ws.soap;
 
 import dao.*;
 import entidade.Protesto;
@@ -12,7 +12,7 @@ import java.util.Date;
 
 import javax.jws.WebService;
 
-@WebService(endpointInterface = "protesto.web.ProtestoServer")
+@WebService(endpointInterface = "ws.soap.ProtestoServer")
 public class ProtestoServerImpl implements ProtestoServer {
 
     ProtestoDAO protestoDAO = new ProtestoDAO();
@@ -20,7 +20,7 @@ public class ProtestoServerImpl implements ProtestoServer {
     /*
     <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
         <Body>
-            <consultarTodos xmlns="http://web.protesto/"/>
+            <consultarTodos xmlns="http://soap.protesto/"/>
         </Body>
     </Envelope>
      */
@@ -39,7 +39,7 @@ public class ProtestoServerImpl implements ProtestoServer {
     /*
     <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
         <Body>
-            <consultarCNPJ xmlns="http://web.protesto/">
+            <consultarCNPJ xmlns="http://soap.protesto/">
                 <cnpj>[string]</cnpj>
             </consultarCNPJ>
         </Body>

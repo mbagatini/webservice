@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package protesto.web;
+package ws.soap;
 
 import dao.ProtestoDAO;
 import entidade.Protesto;
@@ -27,7 +27,7 @@ public class TesteDAO {
         System.out.println("-----------------");
         
         System.out.println("INSERE");
-        System.out.println(p.salvar(new Protesto("01010101", "TESTE", new Date(50), 0)));
+        //System.out.println(p.salvar(new Protesto("01010101", "TESTE", new Date(50), 0)));
         System.out.println("-----------------");
     }
     

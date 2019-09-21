@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package protesto.web;
+package ws.soap;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class Client {
         // URL do meu web service
         URL url = new URL("http://localhost:9876/protesto?wsdl");
 
-        QName qname = new QName("http://web.protesto/", "ProtestoServerImplService");
+        QName qname = new QName("http://soap.ws/", "ProtestoServerImplService");
 
         Service ws = Service.create(url, qname);
         System.out.println(ws.getServiceName());
