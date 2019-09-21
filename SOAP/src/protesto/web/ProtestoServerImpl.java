@@ -8,13 +8,14 @@ package protesto.web;
 import dao.*;
 import entidade.Protesto;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.jws.WebService;
 
 @WebService(endpointInterface = "protesto.web.ProtestoServer")
 public class ProtestoServerImpl implements ProtestoServer {
 
-    ProtestoDAO p = new ProtestoDAO();
+    ProtestoDAO protestoDAO = new ProtestoDAO();
 
     /*
     <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
@@ -22,16 +23,72 @@ public class ProtestoServerImpl implements ProtestoServer {
             <consultarTodos xmlns="http://web.protesto/"/>
         </Body>
     </Envelope>
-    */
+     */
     @Override
     public Protesto[] consultarTodos() {
-        ArrayList<Protesto> a = p.consultarTodos();
+        ArrayList<Protesto> a = protestoDAO.consultarTodos();
         Protesto[] pro = new Protesto[a.size()];
-        
+
         for (int i = 0; i < a.size(); i++) {
             pro[i] = a.get(i);
         }
-        
+
         return pro;
     }
+
+    /*
+    <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+        <Body>
+            <consultarCNPJ xmlns="http://web.protesto/">
+                <cnpj>[string]</cnpj>
+            </consultarCNPJ>
+        </Body>
+    </Envelope>
+     */
+    @Override
+    public Protesto[] consultarCNPJ(String cnpj) {
+        ArrayList<Protesto> a = protestoDAO.consultarCNPJ(cnpj);
+        Protesto[] pro = new Protesto[a.size()];
+
+        for (int i = 0; i < a.size(); i++) {
+            pro[i] = a.get(i);
+        }
+
+        return pro;
+    }
+
+    @Override
+    public boolean inserirProtesto(String cnpj, String nome, Date data, double valor) {
+        try {
+            Protesto p = new Protesto(cnpj, nome, data, valor);
+            return (protestoDAO.salvar(p) == null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean excluirProtesto(int id) {
+        try {
+            return (protestoDAO.excluir(id) == null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean alterarProtesto(int id, Date data, double valor) {
+        try {
+            Protesto p = protestoDAO.consultarID(id);
+            p.setData(data);
+            p.setValor(valor);
+            return (protestoDAO.atualizar(p) == null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

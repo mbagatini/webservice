@@ -5,16 +5,16 @@
  */
 package protesto.web;
 
-// https://www.devmedia.com.br/desenvolvendo-e-usando-web-services-em-java/37261
-import dao.ProtestoDAO;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Date;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 public class Client {
 
     public static void main(String args[]) throws Exception {
-        
+
         // URL do meu web service
         URL url = new URL("http://localhost:9876/protesto?wsdl");
 
@@ -24,7 +24,24 @@ public class Client {
         System.out.println(ws.getServiceName());
         ProtestoServer cli = ws.getPort(ProtestoServer.class);
 
-        System.out.println("Retorno: " + cli.consultarTodos());
-
+        System.out.println("CONSULTA TODOS"); 
+        System.out.println(Arrays.toString(cli.consultarTodos()));
+        System.out.println("-----------------");
+        
+        System.out.println("CONSULTA POR CNPJ"); 
+        System.out.println(Arrays.toString(cli.consultarCNPJ("1612042264299")));
+        System.out.println("-----------------");
+        
+        System.out.println("INSERE"); 
+        //System.out.println(cli.inserirProtesto("027.614.870-36", "MORGANA", new Date(), 6000));
+        System.out.println("-----------------");
+        
+        System.out.println("ALTERA"); 
+        //System.out.println(cli.alterarProtesto(106, new Date(90), 5000));
+        System.out.println("-----------------");
+        
+        System.out.println("EXCLUI"); 
+        //System.out.println(cli.excluirProtesto(106));
+        System.out.println("-----------------");
     }
 }

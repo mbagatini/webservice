@@ -18,15 +18,17 @@ public class TesteDAO {
     public static void main(String[] args) {
         ProtestoDAO p = new ProtestoDAO();
         
-//        Protesto po = new Protesto();
-//        po.setCnpj("123455698");
-//        po.setNome("Meu nome");
-//        po.setData(new java.sql.Date(0));
-//        po.setValor(300);
-//        
-//        p.salvar(po);
+        System.out.println("TODOS");
+        System.out.println(p.consultarTodos().toString());
+        System.out.println("-----------------");
         
-        p.consultarTodos();
+        System.out.println("POR CNPJ");
+        System.out.println(p.consultarCNPJ("1612042264299").toString());
+        System.out.println("-----------------");
+        
+        System.out.println("INSERE");
+        System.out.println(p.salvar(new Protesto("01010101", "TESTE", new Date(50), 0)));
+        System.out.println("-----------------");
     }
     
 }

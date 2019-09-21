@@ -6,20 +6,27 @@
 package dao;
 
 import apoio.ConexaoBD;
-import apoio.IDAO;
 import entidade.Protesto;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class ProtestoDAO implements IDAO<Protesto> {
+public class ProtestoDAO {
 
-    @Override
+    private String converteData(Date d) {
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String date = simpleDateFormat.format(d);
+        return date;
+    }
+
     public String salvar(Protesto objeto) {
         try {
             String sql = "INSERT INTO protesto VALUES (DEFAULT,"
                     + "'" + objeto.getCnpj() + "', "
                     + "'" + objeto.getNome() + "',"
-                    + "'" + objeto.getData() + "',"
+                    + "'" + converteData(objeto.getData()) + "',"
                     + "'" + objeto.getValor() + "')";
 
             int resultado = ConexaoBD.getInstance().getConnection().createStatement().executeUpdate(sql);
@@ -31,14 +38,13 @@ public class ProtestoDAO implements IDAO<Protesto> {
         return null;
     }
 
-    @Override
     public String atualizar(Protesto o) {
         try {
             String sql = "UPDATE protesto SET "
                     + "nome = '" + o.getNome() + "', "
-                    + "data = '" + o.getData() + "',"
+                    + "data = '" + converteData(o.getData()) + "',"
                     + "valor = '" + o.getValor() + "' "
-                    + "WHERE cnpj = " + o.getCnpj();
+                    + "WHERE id = " + o.getId();
 
             int resultado = ConexaoBD.getInstance().getConnection().createStatement().executeUpdate(sql);
 
@@ -49,11 +55,10 @@ public class ProtestoDAO implements IDAO<Protesto> {
         return null;
     }
 
-    @Override
-    public String excluir(String cnpj) {
+    public String excluir(int id) {
         try {
             String sql = "DELETE FROM protesto "
-                    + "WHERE cnpj = '" + cnpj + "'";
+                    + "WHERE id = " + id;
 
             int resultado = ConexaoBD.getInstance().getConnection().createStatement().executeUpdate(sql);
 
@@ -64,12 +69,66 @@ public class ProtestoDAO implements IDAO<Protesto> {
         return null;
     }
 
-    @Override
     public ArrayList<Protesto> consultarTodos() {
-        ArrayList<Protesto> usuarios = new ArrayList<>();
+        ArrayList<Protesto> obj = new ArrayList<>();
 
         try {
             String sql = "SELECT * FROM protesto"
+                    + " ORDER BY data ";
+
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+
+            while (resultado.next()) {
+                Protesto o = new Protesto();
+
+                o.setId(resultado.getInt("id"));
+                o.setCnpj(resultado.getString("cnpj"));
+                o.setNome(resultado.getString("nome"));
+                o.setData(resultado.getDate("data"));
+                o.setValor(resultado.getDouble("valor"));
+
+                obj.add(o);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar: " + e);
+        }
+
+        return obj;
+    }
+
+    public Protesto consultarID(int id) {
+        try {
+            String sql = "SELECT * FROM protesto"
+                    + " WHERE id = " + id;
+
+            ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+
+            while (resultado.next()) {
+                Protesto u = new Protesto();
+
+                u.setId(resultado.getInt("id"));
+                u.setCnpj(resultado.getString("cnpj"));
+                u.setNome(resultado.getString("nome"));
+                u.setData(resultado.getDate("data"));
+                u.setValor(resultado.getDouble("valor"));
+
+                return u;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar: " + e);
+        }
+
+        return null;
+    }
+
+    public ArrayList<Protesto> consultarCNPJ(String cnpj) {
+        ArrayList<Protesto> obj = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM protesto"
+                    + " WHERE cnpj = '" + cnpj + "'"
                     + " ORDER BY data ";
 
             ResultSet resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
@@ -83,24 +142,14 @@ public class ProtestoDAO implements IDAO<Protesto> {
                 u.setData(resultado.getDate("data"));
                 u.setValor(resultado.getDouble("valor"));
 
-                usuarios.add(u);
+                obj.add(u);
             }
 
         } catch (Exception e) {
             System.out.println("Erro ao consultar: " + e);
         }
 
-        return usuarios;
-    }
-
-    @Override
-    public ArrayList<Protesto> consultar(String criterio) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object consultarCNPJ(String cnpj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return obj;
     }
 
 }

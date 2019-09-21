@@ -6,16 +6,30 @@
 package entidade;
 
 import java.util.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="protesto")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "protesto")
 public class Protesto {
-    
+
     private int id;
     private String cnpj;
     private String nome;
     private Date data;
     private double valor;
+
+    public Protesto() {
+
+    }
+
+    public Protesto(String cnpj, String nome, Date data, double valor) {
+        this.cnpj = cnpj;
+        this.nome = nome;
+        this.data = data;
+        this.valor = valor;
+    }
 
     public int getId() {
         return id;
@@ -61,7 +75,7 @@ public class Protesto {
     public String toString() {
         return "{" + "id=" + id + ", cnpj=" + cnpj + ", nome=" + nome + ", data=" + data + ", valor=" + valor + '}';
     }
-    
+
 }
 
 // Inserts no banco
